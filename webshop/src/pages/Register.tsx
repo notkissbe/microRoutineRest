@@ -2,14 +2,33 @@ import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 
 export default function Register() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    const response = await fetch("http://localhost:3000/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+    console.log(username, password);
+
+    if (response.ok) {
+      localStorage.setItem("jwt", data.access_token);
+      console.log(data);
+      console.log("Sikeres bejelentkezés");
+    }
+    else {
+      console.log("Sikertelen bejelentkezés");
+    }
   };
+
 
   return (
     <Container>
@@ -18,10 +37,10 @@ export default function Register() {
         <Form.Group className="mb-3">
           <Form.Label>Felhasználónév</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Enter username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
 

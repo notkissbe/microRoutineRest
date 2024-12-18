@@ -10,6 +10,7 @@ import Cart from './components/Cart'
 import { useEffect } from 'react'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Profile from './pages/Profile'
 
 
 createRoot(document.getElementById('root')!).render(
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path='cart' element={<Cart />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
     </BrowserRouter>
@@ -31,8 +33,6 @@ createRoot(document.getElementById('root')!).render(
 
 
 function Fooldal() {
-  useEffect(() => {
-    redirect('/products');
-  }, []);
+  redirect("/products")
   return null;
 }

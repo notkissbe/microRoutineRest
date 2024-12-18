@@ -19,6 +19,7 @@ model Termek {
   leiras  String
   ar      Int
   keszlet Int
+  keplink String
 }
 
 model User {

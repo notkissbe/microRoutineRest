@@ -2,6 +2,7 @@ import { ImATeapotException, Injectable, UnauthorizedException } from '@nestjs/c
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
+import { P } from '@faker-js/faker/dist/airline-BnpeTvY9';
 
 @Injectable()
 export class AuthService {
@@ -14,8 +15,12 @@ export class AuthService {
     username: string,
     pass: string,
   ): Promise<{ access_token: string }> {
+    console.log(username, pass);
     if (!username || !pass) {
       throw new ImATeapotException('Nem adtál meg felhasználónevet vagy jelszót.');
+    }
+    if(await this.usersService.testIfUsersEmpty()) {
+      throw new UnauthorizedException("Nincs még egyetlen felhasználó sem az adatbázisban");
     }
     const user = await this.usersService.findOne(username);
     if (await !argon2.verify(user.password, pass)) {
@@ -37,5 +42,9 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     return user;
+  }
+
+  async testIfUsersEmpty():Promise<Boolean> {
+    return this.usersService.testIfUsersEmpty();
   }
 }
