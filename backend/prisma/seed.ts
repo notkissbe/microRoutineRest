@@ -21,11 +21,17 @@ async function main() {
         leiras: faker.commerce.productDescription(),
         ar: faker.number.int({ min: 1000, max: 10000 }),
         keszlet: faker.number.int({ min: 0, max: 100 }),
-        //random picsum image
-        keplink: "http://picsum.photos/" + Math.floor(Math.random()*100)+ "200/300"
+        keplink: "http://picsum.photos/id/" + Math.floor(Math.random()*100)+ "/200/300"
       },
     });
   }
+  prisma.user.create({
+    data: {
+      username: "admin",
+      password: "$argon2id$v=19$m=65536,t=3,p=4$xtDuqLimOKa08VZpdXlf4g$WOG0UL0yV+L95pxM75xv4P4gU3hgw3lVmkWhmBNIvjU",
+      //pass: admin
+    },
+  })
 }
 
 main()

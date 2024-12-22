@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -9,23 +10,23 @@ import {
 } from "react-bootstrap";
 
 export default function Header() {
-  /*
-  
-  ## for account dropdown
-  <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown>
-              */
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+  fetch("http://localhost:3000/auth/profile", {
+    method: "GET",
+    headers: new Headers({
+      "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+    }),
+  }).then((response) => {
+    console.log(response.ok);
+    if (response.ok) {
+      setLoggedIn(true);
+    }
+  });}, []);
+
+  console.log(loggedIn);
+
   return (
 <header>
   <Navbar expand="lg" className="bg-body-tertiary">
@@ -52,12 +53,23 @@ export default function Header() {
       </div>
 
       {/* Navigation */}
-      <Nav>
-        <NavDropdown title="Fiók" id="basic-nav-dropdown">
-          <NavDropdown.Item href="/login">Bejelentkezés</NavDropdown.Item>
-          <NavDropdown.Item href="/register">Regisztráció</NavDropdown.Item>
-        </NavDropdown>
-      </Nav>
+      {loggedIn ? (
+        <Nav>
+          <NavDropdown title="Profil" id="basic-nav-dropdown">
+            <NavDropdown.Item href="/profile">Profilom</NavDropdown.Item>
+            <NavDropdown.Item href="/logout">Kijelentkezés</NavDropdown.Item>
+            <NavDropdown.Item href="/cart">Kosár</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+      ) : (
+        <Nav>
+          <NavDropdown title="Fiók" id="basic-nav-dropdown">
+            <NavDropdown.Item href="/login">Bejelentkezés</NavDropdown.Item>
+            <NavDropdown.Item href="/register">Regisztráció</NavDropdown.Item>
+            <NavDropdown.Item href="/cart">Kosár</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+      )}
     </Container>
   </Navbar>
 </header>

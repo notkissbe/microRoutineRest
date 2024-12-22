@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
+import Logout from './pages/Logout'
 
 
 createRoot(document.getElementById('root')!).render(
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="logout" element={<Logout />} />
           </Route>
         </Routes>
     </BrowserRouter>

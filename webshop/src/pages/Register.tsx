@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const nav = useNavigate();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -23,6 +25,8 @@ export default function Register() {
       localStorage.setItem("jwt", data.access_token);
       console.log(data);
       console.log("Sikeres bejelentkezés");
+
+
     }
     else {
       console.log("Sikertelen bejelentkezés");
@@ -38,24 +42,24 @@ export default function Register() {
           <Form.Label>Felhasználónév</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter username"
+            placeholder="Felhasználónév"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" >
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Jelszó</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Jelszó"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
 
         <Button variant="primary" type="submit" className="w-100">
-          Sigma
+          Regisztráció
         </Button>
       </Form>
     </Container>
